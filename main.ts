@@ -94,7 +94,7 @@ function run(p,inp){
 
 const I=process.env.MAKEFUN_INPUT_DIR??'/input';
 const O=process.env.MAKEFUN_OUTPUT_DIR??'/output';
-for(const id of readdirSync(I).sort()){
+for(const id of readdirSync(I,{withFileTypes:true}).filter(d=>d.isDirectory()).map(d=>d.name).sort()){
   const r=run(new Uint8Array(readFileSync(join(I,id,'program.bin'))),new Uint8Array(readFileSync(join(I,id,'input.bin'))));
   mkdirSync(join(O,id),{recursive:true});
   writeFileSync(join(O,id,'stdout.bin'),r[0]);
